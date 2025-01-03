@@ -1,0 +1,15 @@
+memo.txt
+.DS_Store
+
+# Node
+frontend/node_modules/
+
+# Python
+__pycache__/
+.venv/
+.python-version
+
+# Environment
+
+# Static
+/static/
