@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import ReactDOM from 'react-dom/client'
 import Diff from './diff'
+import FileUploadContainer from './components/FileUploadContainer'
 
 function App() {
   const [data, setData] = useState(null);
@@ -15,6 +16,7 @@ function App() {
     <div>
       <h1>API Test</h1>
       {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      <FileUploadContainer />
       <Diff />
     </div>
   );
