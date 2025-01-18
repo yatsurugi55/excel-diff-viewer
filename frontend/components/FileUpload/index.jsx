@@ -7,6 +7,7 @@ const FileUpload = ({
   onFileSelect,    // ファイル選択時のコールバック
 }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -21,11 +22,41 @@ const FileUpload = ({
 
       if (file.name.match(/\.(xlsx|xls)$/)) {
         setSelectedFile(file);
-        onFileSelect(file);
+        //onFileSelect(file);
+        uploadFile(file);
       } else {
         setSelectedFile(null);
         alert('Excelファイル(.xlsx, .xls)を選択してください');
       }
+    }
+  };
+ 
+  const uploadFile = async (file) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
+            method: 'POST',
+            body: formData,
+        });
+           
+        const result = await response.json();
+           
+        if (result.status === 'success') {
+            onFileSelect({ 
+                originalName: result.original_filename,
+                savedName: result.filename 
+            });
+        } else {
+            alert('アップロードに失敗しました');
+        }
+    } catch (error) {
+        console.error('Upload error:', error);
+        alert('アップロードエラーが発生しました');
+    } finally {
+        setUploading(false);
     }
   };
 
@@ -39,6 +70,7 @@ const FileUpload = ({
           type="file"
           onChange={handleFileChange}
           accept=".xlsx,.xls"
+          disabled={uploading}
           className="block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
             file:rounded-lg file:border-0
@@ -46,6 +78,12 @@ const FileUpload = ({
             file:bg-blue-50 file:text-blue-700
             hover:file:bg-blue-100"
         />
+
+        {uploading && (
+            <div className="mt-2 text-sm text-blue-600">
+                アップロード中...
+            </div>
+        )}
         {selectedFile && (
           <div className="mt-2 text-sm text-gray-500">
             選択されたファイル: {selectedFile.name}
