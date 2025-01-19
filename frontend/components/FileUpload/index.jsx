@@ -7,7 +7,7 @@ const FileUpload = ({
   onFileSelect,    // ファイル選択時のコールバック
 }) => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  //const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -17,20 +17,22 @@ const FileUpload = ({
         alert('ファイルサイズは10MB以下にしてください');
         event.target.value = '';  // input をリセット
         setSelectedFile(null);
+        onFileSelect(null);
         return;
       }
 
       if (file.name.match(/\.(xlsx|xls)$/)) {
         setSelectedFile(file);
-        //onFileSelect(file);
-        uploadFile(file);
+        onFileSelect(file);
+        //uploadFile(file);
       } else {
         setSelectedFile(null);
         alert('Excelファイル(.xlsx, .xls)を選択してください');
       }
     }
   };
- 
+
+/* 
   const uploadFile = async (file) => {
     setUploading(true);
     const formData = new FormData();
@@ -59,6 +61,7 @@ const FileUpload = ({
         setUploading(false);
     }
   };
+*/
 
   return (
     <div className="w-full">
@@ -70,7 +73,6 @@ const FileUpload = ({
           type="file"
           onChange={handleFileChange}
           accept=".xlsx,.xls"
-          disabled={uploading}
           className="block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
             file:rounded-lg file:border-0
@@ -79,11 +81,6 @@ const FileUpload = ({
             hover:file:bg-blue-100"
         />
 
-        {uploading && (
-            <div className="mt-2 text-sm text-blue-600">
-                アップロード中...
-            </div>
-        )}
         {selectedFile && (
           <div className="mt-2 text-sm text-gray-500">
             選択されたファイル: {selectedFile.name}
