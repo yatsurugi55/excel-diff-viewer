@@ -65,61 +65,24 @@ async def upload_files(
         source_result = await save_file(source_file, "source", timestamp)
         target_result = await save_file(target_file, "target", timestamp)
 
+        with open(source_result.markdown_path, "r", encoding="utf-8") as f:
+            source_md_content = f.read()
+        with open(target_result.markdown_path, "r", encoding="utf-8") as f:
+            target_md_content = f.read()
+
         return {
             "status": "success",
             "data": {
                 "source": {
                     "original": source_result.original_filename,
-                    "markdown": source_result.markdown_path
+                    "content": source_md_content
                 },
                 "target": {
                     "original": target_result.original_filename,
-                    "markdown": target_result.markdown_path
+                    "content": target_md_content
                 }
             }
         }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-    """
-    try:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-        source_extension = os.path.splitext(source_file.filename)[1]
-        source_filename = f"source_{timestamp}{source_extension}"
-        
-        file_path = os.path.join("static", source_filename)
-        with open(file_path, "wb") as buffer:
-            content = await source_file.read()
-            buffer.write(content)
-       
-        try:
-            md = MarkItDown()
-            source_md = md.convert(file_path)
-            source_md_path = os.path.join("static", f"source_{timestamp}.md")
-            with open(source_md_path, "w", encoding="utf-8") as f:
-                f.write(source_md.text_content)
-        except Exception as e:
-            print(f"Markdown conversion error: {str(e)}")
-
-        target_extension = os.path.splitext(target_file.filename)[1]
-        target_filename = f"target_{timestamp}{target_extension}"
-        
-        file_path = os.path.join("static", target_filename)
-        with open(file_path, "wb") as buffer:
-            content = await target_file.read()
-            buffer.write(content)
- 
-        return {
-            "source": source_filename,
-            "target": target_filename,
-            "status": "success"
-        }
-    except Exception as e:
-        return {
-            "status": "error",
-            "message": str(e)
-        }
-    """
-

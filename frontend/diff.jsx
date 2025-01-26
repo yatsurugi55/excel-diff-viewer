@@ -19,13 +19,13 @@ if(a === 10) {
 }
 `;
 
-function Diff() {
+function Diff({ sourceContent, targetContent }) {
   return (
     <div>
       <h1>Diff Viewer Demo</h1>
       <ReactDiffViewer
-        oldValue={oldCode}
-        newValue={newCode}
+        oldValue={sourceContent}
+        newValue={targetContent}
         splitView={true}
         leftTitle="oldCode"
         rightTitle="newCode"

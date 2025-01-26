@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FileUpload from '../FileUpload';
 
-const FileUploadContainer = () => {
+const FileUploadContainer = ({ onUploadComplete }) => {
   const [sourceFile, setSourceFile] = useState(null);
   const [targetFile, setTargetFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -25,6 +25,7 @@ const FileUploadContainer = () => {
 
       if (result.status === 'success') {
         console.log('Upload successful:', result);
+        onUploadComplete(result.data);
       } else {
         alert('アップロードに失敗しました');
       }
