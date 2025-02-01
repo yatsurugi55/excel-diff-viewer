@@ -15,9 +15,9 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-      "http://localhost:5173",
-      "http://frontend:5173",
+      "http://localhost:5050",
       "http://52.197.182.175:5173"
+      "http://52.197.182.175:80"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -35,7 +35,7 @@ def read_root():
     return {"Hello": "World"}
 
 async def save_file(file: UploadFile, prefix: str, timestamp: str) -> ConvertedFile:
-    print ("1/26 edit")
+    print ("2/1 edit")
     extension = os.path.splitext(file.filename)[1]
     filename = f"{prefix}_{timestamp}{extension}"
     filepath = os.path.join("static", filename)
