@@ -1,5 +1,8 @@
 # excel-diff-viewer
 
+![image](https://github.com/user-attachments/assets/360777d5-7f84-4353-af78-7ef1f9440209)
+
+
 # デプロイ手順
 ## 開発環境
 docker compose --env-file .env.development up -d --build
