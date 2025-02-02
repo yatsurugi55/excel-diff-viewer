@@ -19,7 +19,8 @@ app.add_middleware(
       "http://52.197.182.175:5173",
       "http://52.197.182.175",
       "http://52.197.182.175:5050",
-      "http://52.197.182.175:80"
+      "http://52.197.182.175:80",
+      "http://coffeemerge.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
