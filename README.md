@@ -11,6 +11,7 @@ http://coffeemerge.com/
 ```bash
 docker compose --env-file .env.development up -d --build
 ```
+localhost:5050に接続する
 
 ## 本番環境
 ### frontend/.env 修正
